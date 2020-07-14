@@ -8,16 +8,18 @@
 
 import React from 'react';
 import { Provider } from 'react-redux'
-import generateStore from './src/redux/store'
-
+import { store, persistor } from './src/redux/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import Loading from './src/components/loading/loading'
 import SplashScreen from './src/components/splash/splash'
 
-let store = generateStore()
 
 function App() {
   return (
     <Provider store={store}>
-      <SplashScreen />
+      <PersistGate persistor={persistor} loading={<Loading />}>
+        <SplashScreen />
+      </PersistGate>
     </Provider>
 
   )

@@ -12,7 +12,32 @@ export function loginWithCredentials(email,pass){
         return snap.user
     })
     .catch(err=>{
-        return err.message
+        //console.log('Error in login '+err.message)
+        return err.message+""
+    })
+}
+
+export function registerWithCredentials(data){
+    let {email,pass} = data
+    return auth.createUserWithEmailAndPassword(email,pass)
+    .then(res=>{
+         db.collection('usuarios').doc(res.user.uid).set({
+            ...data,
+            userInfo:{
+                displayName:res.user.displayName,
+                uid:res.user.uid,
+                photo:res.user.photoURL,
+            }
+        }).then(()=>{
+            console.log("User added")
+        })
+        .catch(err=>{
+            throw new Error(err)
+        })
+    })
+    .catch(err=>{
+        //console.log('Error in register '+err.message)
+        return err.message+""
     })
 }
 

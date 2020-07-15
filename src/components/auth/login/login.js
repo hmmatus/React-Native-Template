@@ -5,9 +5,10 @@ import { connect } from 'react-redux'
 
 import {doLoginWithCredentialsAction} from '../../../redux/reducers/authDuck'
 
-function Login({isFetching,doLoginWithCredentialsAction}){
+function Login({isFetching,error,doLoginWithCredentialsAction,navigation}){
     const [email,setEmail] = useState('')
     const [pass,setPass] = useState('')
+    const [errorVar,setError] = useState('')
 
     function onChangeEmail(value){
         setEmail(value)
@@ -18,20 +19,26 @@ function Login({isFetching,doLoginWithCredentialsAction}){
     }
 
     function onPressLogin(){
-        doLoginWithCredentialsAction(email,pass)
+        doLoginWithCredentialsAction(email,pass).then(()=>{
+            if(error){
+                setError(error)
+            }
+        })
     }
     return (
         <SafeAreaView>
-            <Input onChangeText={value=>onChangeEmail(value)} value={email}/>
-            <Input onChangeText={value=>onChangePass(value)} value={pass}/>
+            <Input label='Email' onChangeText={value=>onChangeEmail(value)} value={email}/>
+            <Input label='Password' secureTextEntry onChangeText={value=>onChangePass(value)} errorMessage={errorVar} value={pass}/>
             <Button loading={isFetching} disabled={isFetching} title='Log In' onPress={onPressLogin}/>
+            <Button title='Register' onPress={onPressLogin} onPress={()=>navigation.navigate('Register')}/>
         </SafeAreaView>
     )
 }
 
 function mapStateToProps(state) {
     return {
-        isFetching: state.auth.isFetching
+        isFetching: state.auth.isFetching,
+        error:state.auth.loginError
     }
 }
 

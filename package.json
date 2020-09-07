@@ -7,7 +7,10 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint *.js src",
+    "prettier": "prettier *.js .*.js",
+    "prettier-check": "prettier *.js .*.js --list-different",
+    "prettier-write": "prettier *.js .*.js --write"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
@@ -21,6 +24,7 @@
     "@react-navigation/native": "^5.7.0",
     "@react-navigation/stack": "^5.7.0",
     "add": "^2.0.6",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.0",
     "react-native-elements": "^2.0.4",
@@ -40,11 +44,31 @@
     "@babel/core": "^7.10.4",
     "@babel/runtime": "^7.10.4",
     "@react-native-community/eslint-config": "^2.0.0",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
-    "eslint": "^7.4.0",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-native": "^3.9.1",
+    "husky": "^4.3.0",
     "jest": "^26.1.0",
+    "lint-staged": "^10.3.0",
     "metro-react-native-babel-preset": "^0.60.0",
+    "prettier": "^2.1.1",
     "react-test-renderer": "16.13.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./src/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "eslint src/*.js --fix-dry-run"
+    ]
   },
   "jest": {
     "preset": "react-native"

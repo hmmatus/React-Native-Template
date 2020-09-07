@@ -1,26 +1,28 @@
-import React, { useState } from 'react'
-import {SafeAreaView, Alert} from 'react-native'
-import {Input,Button} from 'react-native-elements'
-import { connect } from 'react-redux'
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { doLogout } from '../../../redux/reducers/authDuck';
 
-import {doLogout} from '../../../redux/reducers/authDuck'
-
-function Login({doLogout}){
-    
-    function onPressLogout(){
-        doLogout()
-    }
-    return (
-        <SafeAreaView>
-            <Button title='Log Out' onPress={onPressLogout}/>
-        </SafeAreaView>
-    )
+function Home({ doLogout }) {
+  function onPressLogout() {
+    doLogout();
+  }
+  return (
+    <SafeAreaView>
+      <Button title="Log Out" onPress={onPressLogout} />
+    </SafeAreaView>
+  );
 }
 
 function mapStateToProps(state) {
-    return {
-        isFetching: state.auth.isFetching
-    }
+  return {
+    isFetching: state.auth.isFetching,
+  };
 }
+Home.propTypes = {
+  doLogout: PropTypes.func,
+};
 
-export default connect(mapStateToProps, {doLogout})(Login)
+export default connect(mapStateToProps, { doLogout })(Home);
